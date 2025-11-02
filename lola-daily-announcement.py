@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 
+"""Perpetuation of Lola's daily announcement for the holy object.
+
+A desktop notification is sent unless ``notify-send`` program is not
+found or called with ``--stdout`` argument.
+
+"""
+
 from dataclasses import dataclass
 from enum import Enum
+import argparse
 import datetime
 import logging
-
+import subprocess
 
 logging.basicConfig()
 LOGGER = logging.getLogger()
@@ -31,6 +39,7 @@ class DayData:
     genre: Genre
 
 
+# See https://github.com/tobozo/SaintObjetBot for data credits
 DATA_MAP: dict[tuple[int, int], DayData] = {
     (1, 1): DayData("veisalgie", "veisalgies", Genre.FEMALE),
     (1, 2): DayData("ankylostome", "ankylostomes", Genre.MALE),
@@ -462,6 +471,50 @@ def get_announce() -> str:
     )
 
 
+def send_notification(announce: str) -> bool:
+    """Send desktop notification for the given announce.
+
+    The notification is sent using the command ``notify-send``.
+
+    Return True iff the subprocess call succeeded.
+    """
+    text, summary = announce.splitlines()
+    command = [
+        "notify-send",
+        "--app-name=Annonce de Lola",
+        "--urgency=normal",
+        summary,
+        text
+    ]
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            check=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace"
+        )
+    except (OSError, FileNotFoundError):
+        LOGGER.debug("Is notify-send available?")
+        return False
+    except subprocess.CalledProcessError as ex:
+        LOGGER.debug(f"Subprocess exited with {ex.returncode} status")
+        LOGGER.debug(f"Standard output: {ex.stdout}")
+        LOGGER.debug(f"Standard error: {ex.stderr}")
+        return False
+    return True
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--stdout", help="use standard output", action="store_true")
+    args = parser.parse_args()
+
     announce = get_announce()
-    print(announce)
+
+    if args.stdout is True:
+        print(announce)
+    else:
+        sent = send_notification(announce)
+        exit(0 if sent else 1)

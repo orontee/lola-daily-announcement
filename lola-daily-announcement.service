@@ -1,0 +1,9 @@
+[Unit]
+Description="Perpetuation of Lola's daily announcement for the holy object"
+After=graphical.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/share/lola-daily-announcement
+ExecStart=/usr/share/local/lola-daily-announcement.py
+

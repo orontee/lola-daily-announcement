@@ -6,7 +6,7 @@ Perpetuation of Lola's daily announcement for the holy object.
 
 Make sure `notify-send` is installed (eg on Debian based systems `apt
 install libnotify-bin`), then simply call the
-[lola-daily-announcement.py](lola-daily-announcement.py) script.
+[lola_daily_announcement.py](lola_daily_announcement.py) script.
 
 The default is to send a desktop notification but one can use standard
 output with the `--stdout` parameter:

@@ -1,9 +1,13 @@
 [Unit]
-Description="Perpetuation of Lola's daily announcement for the holy object"
-After=graphical.target
+Description=Perpetuation of Lola's daily announcement for the holy object
+After=dbus.service
+Requires=dbus.service
 
 [Service]
-Type=simple
-WorkingDirectory=/usr/local/share/lola-daily-announcement
-ExecStart=/usr/share/local/lola-daily-announcement.py
+Type=oneshot
+ExecStart=python3 %h/.local/bin/lola_daily_announcement.py
+ExecStop=
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:%h/.local/bin
 
+[Install]
+WantedBy=graphical.target

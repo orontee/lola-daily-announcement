@@ -12,10 +12,24 @@ The default is to send a desktop notification but one can use standard
 output with the `--stdout` parameter:
 
 ``` bash
-$ ./lola-daily-announcement.py --stdout
+$ ./lola_daily_announcement.py --stdout
 Chalut ! Aujourd'hui, Mitanche 2, c'est la Saint-symptôme.
 Bonne fête à tous les symptômes 🎆
 ```
+
+### As a user service
+
+To enable the provided systemd timer:
+
+``` bash
+$ mkdir -p ~/.local/bin ~/.config/share/systemd/user
+$ cp lola-daily-announcement.{service,timer} ~/.local/share/systemd/user/
+$ cp lola-daily-announcement.py ~/.local/bin/
+$ systemctl start --user lola-daily-announcement.timer
+``` 
+
+To deploy for all users, move the service file to
+`/usr/share/systemd/user/` and the script to `/usr/local/bin`.
 
 ## Credits
 

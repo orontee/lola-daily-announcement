@@ -451,8 +451,8 @@ def get_announce() -> str:
         LOGGER.error("Daily data not found!")
         exit(1)
 
-    hallow = data.singular
-    hallow_plural = data.plural
+    hallow = data.singular.capitalize()
+    hallow_plural = data.plural.capitalize()
 
     if data.genre == Genre.FEMALE:
         hallow_prefix = "Sainte"

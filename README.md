@@ -2,6 +2,8 @@
 
 Perpetuation of Lola's daily announcement for the holy object.
 
+![Screenshot of a notification](./screenshot-notification.png)
+
 ## Usage
 
 Make sure `notify-send` is installed (eg on Debian based systems `apt

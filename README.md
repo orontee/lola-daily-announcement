@@ -26,7 +26,7 @@ To enable the provided systemd timer:
 ``` bash
 $ mkdir -p ~/.local/bin ~/.config/share/systemd/user
 $ cp lola-daily-announcement.{service,timer} ~/.local/share/systemd/user/
-$ cp lola-daily-announcement.py ~/.local/bin/
+$ cp lola_daily_announcement.py ~/.local/bin/
 $ systemctl start --user lola-daily-announcement.timer
 ``` 
 
